@@ -23,6 +23,8 @@ angular.module('angularPayments')
 
   var _formatCardNumber = function(e) {
       var $target, card, digit, length, re, upperLength, value;
+
+      if (e.which === 8) return;
       
       digit = String.fromCharCode(e.which);
       $target = angular.element(e.currentTarget);
@@ -67,6 +69,8 @@ angular.module('angularPayments')
 
   var _restrictCardNumber = function(e) {
       var $target, card, digit, value;
+
+      if (e.which === 8) return;
       
       $target = angular.element(e.currentTarget);
       digit = String.fromCharCode(e.which);
@@ -162,8 +166,8 @@ angular.module('angularPayments')
   };
 
   _formats['card'] = function(elem, ctrl){
-    elem.bind('keypress', _restrictCardNumber);
-    elem.bind('keypress', _formatCardNumber);
+    elem.bind('keydown', _restrictCardNumber);
+    elem.bind('keydown', _formatCardNumber);
     elem.bind('keydown', _formatBackCardNumber);
     elem.bind('paste', _reFormatCardNumber);
 
@@ -175,6 +179,8 @@ angular.module('angularPayments')
   // cvc
 
   _formatCVC = function(e){
+    if (e.which === 8) return;
+
     $target = angular.element(e.currentTarget);
     digit = String.fromCharCode(e.which);
     
@@ -194,13 +200,15 @@ angular.module('angularPayments')
   }
 
   _formats['cvc'] = function(elem){
-    elem.bind('keypress', _formatCVC)
+    elem.bind('keydown', _formatCVC)
   }
 
   // expiry
 
   _restrictExpiry = function(e) {
     var $target, digit, value;
+
+    if (e.which === 8) return;
     
     $target = angular.element(e.currentTarget);
     digit = String.fromCharCode(e.which);
@@ -225,6 +233,8 @@ angular.module('angularPayments')
 
   _formatExpiry = function(e) {
     var $target, digit, val;
+
+    if (e.which === 8) return;
     
     digit = String.fromCharCode(e.which);
     
@@ -249,6 +259,8 @@ angular.module('angularPayments')
 
   _formatForwardExpiry = function(e) {
     var $target, digit, val;
+
+    if (e.which === 8) return;
     
     digit = String.fromCharCode(e.which);
     
@@ -266,6 +278,8 @@ angular.module('angularPayments')
 
   _formatForwardSlash = function(e) {
     var $target, slash, val;
+
+    if (e.which === 8) return;
     
     slash = String.fromCharCode(e.which);
     
@@ -330,10 +344,10 @@ angular.module('angularPayments')
 
 
   _formats['expiry'] = function(elem, ctrl){
-    elem.bind('keypress', _restrictExpiry);
-    elem.bind('keypress', _formatExpiry);
-    elem.bind('keypress', _formatForwardSlash);
-    elem.bind('keypress', _formatForwardExpiry);
+    elem.bind('keydown', _restrictExpiry);
+    elem.bind('keydown', _formatExpiry);
+    elem.bind('keydown', _formatForwardSlash);
+    elem.bind('keydown', _formatForwardExpiry);
     elem.bind('keydown', _formatBackExpiry);
 
     ctrl.$parsers.push(_parseExpiry);
